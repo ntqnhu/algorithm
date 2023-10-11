@@ -1,0 +1,10 @@
+{
+  "name": "my-app",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {},
+  "dependencies": {
+    "random": "^4.1.0"
+  }
+}

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thuật toán tiến hóa</title>
+    <link rel="stylesheet" href="./css/app.css" type="text/css">
+    <link rel="stylesheet" href="./css/select.css" type="text/css">
+</head>
+
+<body>
+    <div class="p-parent">
+        <div class="p-item w-30 p-30">
+            <h1>Giải thuật di truyền (Genetic Algorithm - GA)</h1>
+            <form name="myForm">
+                <label class="container">Bài toán 1
+                    <input type="radio" checked="checked" name="example" value="bt1">
+                    <span class="checkmark"></span>
+                </label>
+                <label class="container">Bài toán 2
+                    <input type="radio" name="example" value="bt2">
+                    <span class="checkmark"></span>
+                </label>
+            </form>
+        </div>
+        <div class="p-item p-30 b-double w-70 h-300 mt-100">
+            <div id="bt1" class="block">
+                <h2>Bài toán 1: Tìm kiếm một chuỗi ký tự cho trước</h2>
+                <div class="p-parent">
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Chuỗi cần tìm</label>
+                        <input class="form-control" type="text" placeholder="Nhập chuỗi cần tìm" id="strTarget">
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Cá thể ban đầu</label>
+                        <input class="form-control" type="number" placeholder="" id="N">
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Số lượng cá thể mới</label>
+                        <input class="form-control" type="number" placeholder="" id="DB">
+                    </div>
+                    <div class="w-15">
+                        <button onclick="onSubmitBT1()" class="btn_colorF" id="n1"> Thực hiện</button>
+                    </div>
+                </div>
+                <div id="msg-error1">
+
+                </div>
+                <div id="result1">
+
+                </div>
+
+            </div>
+            <div id="bt2" class="hidden">
+                <h2>Bài toán 2: Lấy các đồ vật sao cho tổng giá trị của chúng là lớn nhất và tổng khối lượng của chúng
+                    không vượt quá sức chứa của cái túi</h2>
+
+                <div class="p-parent">
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Số lượng đồ vật</label>
+                        <input class="form-control" type="number" placeholder="" id="countItem" value="20">
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Giá trị cao nhất</label>
+                        <input class="form-control" type="number" placeholder="" id="maxValue" value="100">
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Sức chứa của túi</label>
+                        <input class="form-control" type="number" placeholder="" id="knapsackValue">
+                    </div>
+                    <div class="w-15"> </div>
+                </div>
+                <div class="p-parent pt-20">
+                    <div class="w-30">
+                        <label class="container">Tạo ngẫu nhiên
+                            <input type="radio" checked="checked" name="sortType" value="type_random">
+                            <span class="checkmark"></span>
+                        </label>
+                        <label class="container">Tạo có điều kiên
+                            <input type="radio" name="sortType" value="type_choose">
+                            <span class="checkmark"></span>
+                        </label>
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Cá thể ban đầu</label>
+                        <input class="form-control" type="number" placeholder="" id="beginN">
+                    </div>
+                    <div class="w-30">
+                        <label for="exampleFormControlFile1">Số lượng cá thể mới</label>
+                        <input class="form-control" type="number" placeholder="" id="newN">
+                    </div>
+                    <div class="w-15">
+                        <button onclick="onSubmitBT2()" class="btn_colorF " id="n1"> Thực hiện</button>
+                    </div>
+
+                </div>
+                <div id="msg-error">
+
+                </div>
+                <h2 class="pt-20">Danh sách đồ vật</h2>
+                <div id="list-item">
+
+                </div>
+                <div id="result">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</body>
+
+</html>
+<script src="./js/ea.js"></script>
+<script src="./js/search-str.js"></script>
+<script src="./js/knapsack.js"></script>
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/popperjs/popper.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.js"></script>
