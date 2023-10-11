@@ -1,3 +1,6 @@
+let currentArr = []
+var delayInMilliseconds = 0;
+
 function randomIntFromInterval(n, m) {
     const arr = Array.from({ length: m - n + 1 }, (_, i) => i + n);
     for (let i = arr.length - 1; i > 0; i--) {
@@ -6,9 +9,14 @@ function randomIntFromInterval(n, m) {
     }
     return arr;
 }
+function shuffleArray(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+}
 
-let currentArr = []
-let currentArr_fe = []
 $(document).ready(function () {
     $("#lengthArr").change(function () {
         let length = $(this).val()
@@ -22,7 +30,6 @@ $(document).ready(function () {
             l = ((100 / length) * i)
             str = '<div class="element" style="left: ' + l + '%; width: ' + w + '%; height: ' + h + '%;" id ="item' + newArr[i] + '"></div> \n'
             listItem += str
-            currentArr_fe.push(str)
         }
         document.getElementById("sort-container").innerHTML = listItem;
         currentArr = newArr
@@ -31,69 +38,84 @@ $(document).ready(function () {
         // alert("button");
         run()
     });
+    $("#shuffle-btn").click(function () {
+        // alert("button");
+        shuffle()
+    });
 
 });
+function shuffle() {
+    let length = $("#lengthArr").val()
 
-function genFE(inputArr) {
+    currentArr = randomIntFromInterval(1, length)
+
+    let w, h, l, str
     let listItem = ''
-    for (let i = 0; i < inputArr.length; i++) {
-        listItem += currentArr_fe[i]
+    for (let i = 0; i < length; i++) {
+        w = (100 / length);
+        h = ((100 / length) * currentArr[i])
+        l = ((100 / length) * i)
+        str = '<div class="element" style="left: ' + l + '%; width: ' + w + '%; height: ' + h + '%;" id ="item' + currentArr[i] + '"></div> \n'
+        listItem += str
     }
     document.getElementById("sort-container").innerHTML = listItem;
 }
+function genMergeItem(arr) {
+    let length = $("#lengthArr").val()
+    // console.log("length",length);
+    let w, h, l
+    for (let i = 1; i <= length; i++) {
+        // console.log("hihi",arr, i);
+        if (arr.includes(i)) {
+            w = (100 / length);
+            h = ((100 / length) * i)
+            l = ((100 / length) * (i - 1))
 
-function copyStyles(source, target) {
-    const styles = window.getComputedStyle(source);
-    target.style.cssText = styles.cssText;
-  }
+            // console.log("#item" +i, "block");
+            $("#item" + i).css("display", "block")
+            $("#item" + i).css("left", l + "%")
+            $("#item" + i).css("width", w + "%")
+            $("#item" + i).css("height", h + "%")
+            const target = document.getElementById("item" + i);
+            target.classList.remove("border");
+        } else {
+            // console.log("#item" + i, "none");
+            // $("#item" + i).css("display", "none")
+            const target = document.getElementById("item" + i);
+            target.classList.add("border");
+        }
+    }
+}
 
 function changeStyle(i, j) {
     let c_i = "item" + i;
     let c_j = "item" + j;
     const source = document.getElementById(c_i);
     const target = document.getElementById(c_j);
-    console.log("before", source.style.cssText, target.style.cssText);
 
+    let obj
     let source_style = source.style.cssText
-    const json = CSSJSON.toJSON(source_style);
-console.log(json);
-
     let target_style = target.style.cssText
 
 
+    source_style = source_style.split(";")
+    for (let i = 0; i < source_style.length - 1; i++) {
+        obj = source_style[i].split(":")
+        $("#" + c_j).css(obj[0], obj[1])
+    }
 
-    $(c_i).css(target_style);
-    $(c_j).css(source_style);
-
-    console.log("after", document.getElementById(c_i).style.cssText, document.getElementById(c_j).style.cssText);
-
-
-    // copyStyles(source, target);
-
-    // var left_i =  $("#item" + i).css("left");
-    // var width_i = $("#item" + i).css("width");
-    // var height_i = $("#item" + i).css("height");
-
-    // var left_j =   $("#item" + j).css("left");
-    // var width_j = $("#item" + j).css("width");
-    // var height_j = $("#item" + j).css("height");
-
-
-    // $("#item" + i).css("left", left_j);
-    // $("#item" + i).css("width", width_j);
-    // $("#item" + i).css("height", height_j);
-
-    // $("#item" + j).css("left", left_i);
-    // $("#item" + j).css("width", width_i);
-    // $("#item" + j).css("height", height_i);
-
-    // console.log("#item" + i, left_j, width_j, height_j, "#item" + j, left_i, width_i, height_i);
-
+    target_style = target_style.split(";")
+    for (let i = 0; i < target_style.length - 1; i++) {
+        obj = target_style[i].split(":")
+        $("#" + c_i).css(obj[0], obj[1])
+    }
 
 }
 
-function run() {
+async function run() {
     var ele = document.getElementsByName('sortType');
+    delayInMilliseconds = $("#rateTime").val()
+
     let p_type = ""
     for (i = 0; i < ele.length; i++) {
         if (ele[i].checked) p_type = ele[i].value
@@ -108,36 +130,24 @@ function run() {
             console.log("selectionSort", arr);
             break;
         case "insertion":
+            console.log("arr", arr);
             rs = insertionSort(arr)
             console.log("insertionSort", arr);
             break;
         case "bubble":
+            console.log("arr", arr);
             rs = bubbleSort(arr)
             console.log("bubbleSort", arr);
             break;
         case "merge":
-            countCompareMerge = 0
-            countSwapMerge = 0
-            rs = mergeSort(arr)
-            objRS = {
-                arr: rs,
-                countCompare: countCompareMerge,
-                countSwap: countSwapMerge
-            }
-            rs = objRS;
+            console.log("arr", arr);
+            rs = await mergeSort(arr)
+            console.log("mergeSort", rs);
             break;
         case "quick":
-            countCompareQuick = 0
-            countSwapQuick = 0
-            let arr1 = [6, 5, 3, 2, 8, 9, 7, 4, 1]
-            rs = quickSort(arr1)
-            console.log("quickSort", arr1, rs);
-            objRS = {
-                arr: rs,
-                countCompare: countCompareQuick,
-                countSwap: countSwapQuick
-            }
-            rs = objRS;
+            console.log("arr", arr);
+            rs = await quickSort(arr)
+            console.log("quickSort", rs);
             break;
         case "non-recursive":
             countCompareQuick = 0
@@ -155,10 +165,8 @@ function run() {
     }
 }
 
-function selectionSort(inputArr) {
-    console.log("hihihi");
+async function selectionSort(inputArr) {
     let n = inputArr.length;
-
 
     for (let i = 0; i < n; i++) {
         // tìm phần tử nhỏ nhất trong mảng
@@ -168,6 +176,8 @@ function selectionSort(inputArr) {
                 min = j;
             }
         }
+        const target = document.getElementById("item" + inputArr[min]);
+        target.classList.add("red");
         if (min != i) {
             // hoán đổi vị trí
             let tmp = inputArr[i];
@@ -176,7 +186,119 @@ function selectionSort(inputArr) {
 
             changeStyle(inputArr[i], inputArr[min])
         }
+        await new Promise(resolve => setTimeout(resolve, delayInMilliseconds * 1000));
+        target.classList.remove("red");
+    }
 
+    return inputArr;
+}
+
+async function insertionSort(inputArr) {
+    let n = inputArr.length;
+    for (let i = 1; i < n; i++) {
+        let current = inputArr[i];
+
+        let j = i - 1;
+
+        while ((j > -1) && (current < inputArr[j])) {
+            changeStyle(inputArr[j], current)
+
+            inputArr[j + 1] = inputArr[j];
+            j--;
+        }
+        inputArr[j + 1] = current;
+        const target = document.getElementById("item" + current);
+        target.classList.add("red");
+        await new Promise(resolve => setTimeout(resolve, delayInMilliseconds * 1000));
+        target.classList.remove("red");
     }
     return inputArr;
 }
+
+
+async function bubbleSort(inputArr) {
+
+    for (var i = 0; i < inputArr.length; i++) {
+        for (var j = 0; j < (inputArr.length - i - 1); j++) {
+            const target = document.getElementById("item" + inputArr[j]);
+            target.classList.add("red");
+            if (inputArr[j] > inputArr[j + 1]) {
+
+                var temp = inputArr[j]
+                inputArr[j] = inputArr[j + 1]
+                inputArr[j + 1] = temp
+                changeStyle(inputArr[j], temp)
+            }
+            await new Promise(resolve => setTimeout(resolve, delayInMilliseconds * 1000));
+            target.classList.remove("red");
+        }
+    }
+    return inputArr;
+}
+
+async function merge(left, right) {
+    let arrTmp = []
+    while (left.length && right.length) {
+        if (left[0] < right[0]) {
+            let tmp = left.shift()
+            arrTmp.push(tmp)
+        } else {
+            arrTmp.push(right.shift())
+        }
+
+    }
+    let rs = [...arrTmp, ...left, ...right]
+    console.log("rs", rs);
+    await new Promise(resolve => setTimeout(resolve, delayInMilliseconds * 1000));
+    genMergeItem(rs)
+
+    return rs
+}
+
+async function mergeSort(inputArr) {
+    const half = inputArr.length / 2
+
+    if (inputArr.length < 2) {
+        // console.log("item" + inputArr[0]);
+        // const target = document.getElementById("item" + inputArr[0]);
+        // target.classList.add("red");
+        return inputArr
+    }
+
+    const left = inputArr.splice(0, half)
+    return merge(await mergeSort(left), await mergeSort(inputArr))
+}
+
+
+async function quickSort(inputArr) {
+
+    if (inputArr.length <= 1) {
+        return inputArr;
+    }
+
+    let pivot = inputArr[0];
+    let leftArr = [];
+    let rightArr = [];
+
+    const target = document.getElementById("item" + pivot);
+    target.classList.add("red");
+
+    for (let i = 1; i < inputArr.length; i++) {
+        if (inputArr[i] < pivot) {
+            leftArr.push(inputArr[i]);
+        } else {
+            rightArr.push(inputArr[i]);
+        }
+    }
+
+    console.log("pivot", pivot);
+    console.log("leftArr", leftArr);
+    console.log("rightArr", rightArr);
+    let rs = [... await quickSort(leftArr), pivot, ... await quickSort(rightArr)]
+    await new Promise(resolve => setTimeout(resolve, delayInMilliseconds * 1000));
+    genMergeItem(rs)
+    target.classList.remove("red");
+
+
+    return rs;
+};

@@ -214,7 +214,6 @@
 }
 
 .element {
-  padding-right: 2px;
   position: absolute;
   bottom: 0;
   left: 0;
@@ -236,4 +235,8 @@
 
 .red {
   background: red !important;
+}
+.border{
+  border: 1px solid #495057;
+  background-color: #fff !important;
 }

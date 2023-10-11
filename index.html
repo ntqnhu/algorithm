@@ -43,13 +43,17 @@
                 <h2 style="margin-right: 10px;font-size: 14px;">Số lượng phần tử </h2>
                 <input type="number" min="0" max="1000" id="lengthArr" style="width: 150px;">
             </div>
+            <div class="flex">
+                <h2 style="margin-right: 10px;font-size: 14px;">Thời gian delay</h2>
+                <input type="number" min="0" id="rateTime" style="width: 150px;">
+            </div>
 
             <!-- <button onclick="onSubmit()" class="btn_colorF" id="n1"> Thực hiện</button> -->
         </div>
         <div class="w-60 h-full">
             <div style="float: right; white-space: nowrap;">
                 <button class="sort-btns" id="shuffle-btn" onclick="shuffle()">shuffle</button>
-                <button class="sort-btns" id="run-btn" onclick="run()">run</button>
+                <button class="sort-btns" id="run-btn">run</button>
             </div>
             <div class="listItem" id="listItem">
 
@@ -76,5 +80,4 @@
 
 </html>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/cssjson@3.0.0/dist/CSSJSON.min.js"></script>
 <script src="./js/new-sort.js"></script>
