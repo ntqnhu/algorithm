@@ -94,6 +94,9 @@
 .b-double {
   border-style: double;
 }
+.w-100{
+  width: 100%;
+}
 
 .w-50 {
   width: 50%;
@@ -174,6 +177,17 @@
   padding: 10px;
   background-color: #2196F3;
   border-radius: 50%;
+  margin-bottom: 0px;
+  line-height: 15px;
+}
+.item-non p{
+  text-align: center;
+  padding: 10px;
+  border: solid 1px;
+  border-radius: 50%;
+  margin-bottom: 0px;
+  line-height: 15px;
+  margin: 5px;
 }
 
 #msg-error {
@@ -239,4 +253,19 @@
 .border{
   border: 1px solid #495057;
   background-color: #fff !important;
+}
+#process{
+  padding: 50px;
+}
+
+.parents, .newparents{
+display: flex;
+width: 100%;
+overflow-x: scroll;
+}
+
+.item-bag{
+  display: grid;
+  width: 60px;
+  border: solid 1px;
 }
